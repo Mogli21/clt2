@@ -1,238 +1,691 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HOT-STORE</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Access - Get Access</title>
   <style>
+    :root {
+      --bg: #000000;
+      --text:#ffcc00;
+      --accent: #ff3366;
+      --card-bg: #111;
+      --border: #222;
+      --red-border: #ffcc00;
+      --red-glow: rgba(255, 0, 68, 0.35);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      background: linear-gradient(135deg, #2a004a 0%, #4a0028 40%, #640101 70%, #2a004a 100%);
-      background-attachment: fixed;
-      position: relative;
-      overflow-x: hidden;
-      color: white;
-      font-family: ui-sans-serif, system-ui, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      font-family:system-ui, -apple-system, sans-serif;
+      line-height:1.5;
     }
-    body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 30% 60%, rgba(236, 72, 153, 0.12) 0%, transparent 50%),
-                  radial-gradient(circle at 70% 30%, rgba(168, 85, 247, 0.10) 0%, transparent 60%);
-      pointer-events: none;
-      opacity: 0.8;
-      animation: cosmic-pulse 20s infinite alternate ease-in-out;
+    .container { max-width:1200px; margin:0 auto; padding:0 20px; }
+    header.banner {
+      text-align:center;
+      padding:40px 20px;
+      background:linear-gradient(to bottom, #000000, #000000);
     }
-    @keyframes cosmic-pulse {
-      0%   { opacity: 0.7; transform: scale(1); }
-      100% { opacity: 1; transform: scale(1.03); }
+    header.banner h1 {
+      font-size:2.3rem;
+      color:#ad8b00;
+      margin-bottom:12px;
+      text-shadow:0 0 10px rgb(255, 238, 0);
     }
-    .card-hover {
-      transition: all 0.3s ease;
-      border: 1px solid #2a1a3a;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    .products-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
+      gap:24px;
+      padding:40px 0;
     }
-    .card-hover:hover {
-      transform: translateY(-8px) scale(1.03);
-      box-shadow: 0 15px 35px rgba(236, 72, 153, 0.25);
-      border-color: #ec4899;
+    .product-card {
+      background:var(--card-bg);
+      border:5px solid var(--red-border);
+      border-radius:15px;
+      overflow:hidden;
+      transition:all 0.25s ease;
+      box-shadow:0 4px 12px rgba(0,0,0,0.5);
+      padding: 1%;
     }
-    .neon-title {
-      text-shadow: 0 0 10px #c026d3, 0 0 20px #c026d3;
+    .product-card:hover {
+      transform:translateY(-8px);
+      box-shadow:0 16px 40px var(--red-glow);
+      border-color:#ad8b00;
     }
-    .filter-active {
-      background: linear-gradient(135deg, #c026d3, #ec4899) !important;
-      box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+    .product-header {
+      background:#1a1a1a;
+      padding:16px;
+      text-align:center;
+      font-size:1.35rem;
+      font-weight:bold;
+      border-bottom:1px solid var(--border);
+      color:var(--text);
+    }
+    .video-container {
+      position:relative;
+      padding-bottom:56.25%;
+      height:0;
+      overflow:hidden;
+      background:black;
+    }
+    .video-container video {
+      position:absolute;
+      border:4px solid var(--red-border);
+      border-radius: 16px;
+      top: 0; bottom: 0;
+      width:100%; height:95%;
+      object-fit:cover;
+    }
+    .product-content {
+      padding:20px;
+      text-align:center;
+      color:var(--text);
+    }
+    .product-content strong {
+      color:#ffcc00;
+      font-size:1.1rem;
+    }
+    .features { margin:16px 0; font-size:1.05rem; }
+    .features li { margin:8px 0; list-style:none; }
+    .features .emoji { font-size:1.3rem; margin-right:8px; }
+    .buy-btn {
+      display:inline-block;
+      background:linear-gradient(145deg, #ffe600, #cc0033);
+      color:white;
+      font-size:1.2rem;
+      font-weight:bold;
+      padding:14px 32px;
+      border-radius:50px;
+      text-decoration:none;
+      margin-top:20px;
+      transition:all 0.2s;
+      box-shadow:0 4px 15px rgba(255,51,102,0.4);
+    }
+    .buy-btn:hover {
+      transform:scale(1.06);
+      box-shadow:0 8px 25px rgba(255,51,102,0.55);
+    }
+    .promo-section {
+      background:#0d001a;
+      text-align:center;
+      padding:60px 20px;
+      margin:40px 0;
+      border-radius:16px;
+      color:var(--text);
+    }
+    .promo-section h2 {
+      color:#8000ff;
+      margin-bottom:20px;
+      font-size:2.2rem;
+    }
+    .contact-final {
+      text-align:center;
+      padding:60px 20px;
+      font-size:1.3rem;
+      color:var(--text);
+    }
+    .contact-final a {
+      color:#00aaff;
+      text-decoration:none;
+      font-weight:bold;
+    }
+    @media (max-width:600px) {
+      header.banner h1 { font-size:1.9rem; }
+      .products-grid { grid-template-columns:1fr; }
+      .buy-btn { padding:12px 28px; font-size:1.1rem; }
     }
   </style>
 </head>
-<body class="min-h-screen">
+<body>
 
-  <!-- Header -->
-  <header class="flex items-center justify-between p-5 border-b border-purple-900/50 bg-black/60 backdrop-blur-md sticky top-0 z-50">
-    <h1 class="text-3xl font-black neon-title tracking-wider text-pink-600">HOT-STORE</h1>
+<!-- 
+  MUDE APENAS ESTA LINHA PARA TROCAR O USUÁRIO DO TELEGRAM EM TODA A PÁGINA
+-->
+<script>
+  const TELEGRAM_USER = "MoonFireXX1";   // ←←← Altere aqui o username
+  const TELEGRAM_BASE = "https://t.me/" + TELEGRAM_USER + "?text=";
+</script>
+
+<div class="container">
+
+  <header class="banner">
+    <h1>⬇️ NEW FOLDERS AVAILABLE NOW! ⬇️</h1>
   </header>
 
-  <!-- Search + Filters -->
-  <section class="p-6 max-w-7xl mx-auto space-y-6">
-    <div class="flex justify-center">
-      <div class="relative w-full max-w-xl">
-        <input id="search" type="text" placeholder="Search premium folders..." 
-               class="w-full pl-12 pr-5 py-3 text-base rounded-full bg-zinc-900/80 border border-purple-800/50 text-white placeholder-zinc-500 outline-none focus:border-pink-600 transition-all duration-300" />
+  <section class="products-grid">
+
+    <!-- 1 -->
+    <div class="product-card">
+      <div class="product-header">🔥 C#P COLLECTION PRO 🔥</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/jbjfj9.MP4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/0uu9ob.MP4" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p><strong>😈 CP COLLECTION PRO 📂</strong></p>
+        <ul class="features">
+          <li><span class="emoji">✅</span> MORE THAN 1000 VIDEOS</li>
+          <li><span class="emoji">✅</span> 17.7GB IN TOTAL</li>
+          <li><span class="emoji">✅</span> MY COMPLETE FOLDER</li>
+          <li><span class="emoji">✅</span> PREMIUM CONTENT</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'CPCOLLECTIONPRO'" class="buy-btn">BUY NOW ✔️</a>
       </div>
     </div>
 
-    <div class="flex flex-wrap items-center justify-between gap-4">
-      <h1 id="page-info" class="text-3xl md:text-4xl font-extrabold neon-title text-white">Page 1 (1–12 of 21 folders)</h1>
-      <p id="videos-found" class="text-lg text-zinc-400">21 folders found</p>
-    </div>
+    <!-- 2 -->
+    <div class="product-card">
+      <div class="product-header">🔥 BLACK CP ✅</div>
 
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div></div>
-      <div class="flex flex-wrap items-center gap-3">
-        <span class="text-sm text-zinc-400 font-medium">Sort by:</span>
-        <button id="filterRecent"    class="px-5 py-2.5 rounded-full text-sm font-semibold bg-zinc-800 hover:bg-purple-900/50 filter-active">Recent</button>
-        <button id="filterViews"     class="px-5 py-2.5 rounded-full text-sm font-semibold bg-zinc-800 hover:bg-purple-900/50">Views</button>
-        <button id="filterPriceHigh" class="px-5 py-2.5 rounded-full text-sm font-semibold bg-zinc-800 hover:bg-purple-900/50">Price High</button>
-        <button id="filterPriceLow"  class="px-5 py-2.5 rounded-full text-sm font-semibold bg-zinc-800 hover:bg-purple-900/50">Price Low</button>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/4pfipj.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/ndfp25.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="product-content">
+        <p><strong>😈 BLACK CP 📂</strong></p>
+        <ul class="features">
+          <li><span class="emoji">✅</span> MORE THAN 100 VIDEOS</li>
+          <li><span class="emoji">✅</span> 9GB IN TOTAL</li>
+          <li><span class="emoji">✅</span> MY COMPLETE FOLDER</li>
+          <li><span class="emoji">✅</span> PREMIUM CONTENT</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'BLACKCP'" class="buy-btn">BUY NOW ✔️</a>
       </div>
     </div>
+
+    <!-- 3 -->
+    <div class="product-card">
+      <div class="product-header">🔥 CP MEGA PREMIUM 🔥</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/9ujgbn.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/n61kqk.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p><strong>🔥 CP MEGA PREMIUM 😈</strong></p>
+        <ul class="features">
+          <li><span class="emoji">✅</span> MORE THAN 1000 VIDEOS</li>
+          <li><span class="emoji">✅</span> 297.72GB IN TOTAL</li>
+          <li><span class="emoji">✅</span> MY COMPLETE FOLDER</li>
+          <li><span class="emoji">✅</span> PREMIUM CONTENT</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'CPMEGAPREMIUM'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="product-card">
+      <div class="product-header">WHITE TEENS 🥵</div>
+
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/acgbke.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/vznl28.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="product-content">
+        <p>😈 WHITE TEENS AVAILABLE 🔥</p>
+        <ul class="features">
+          <li>➡️ MORE THAN 250 VIDEOS ✅</li>
+          <li>➡️ 7GB IN TOTAL ✅</li>
+          <li>➡️ FULL FOLDER ✅</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'WHITETEENS'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="product-card">
+      <div class="product-header">🔥 AMERICAN TEENS 🔥</div>
+
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/8b283k.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/h53snw.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="product-content">
+        <p>😈 AMERICAN TEENS AVAILABLE 🔥</p>
+        <ul class="features">
+          <li>➡️ MORE THAN 150 VIDEOS ✅</li>
+          <li>➡️ 4.5GB ✅</li>
+          <li>➡️ FULL FOLDER ✅</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'AMERICANTEENS'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="product-card">
+      <div class="product-header">✅ RAPE 🔥</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/7asiw9.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/273kr3.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p>😈 RAPE FOLDER AVAILABLE 🔥</p>
+        <ul class="features">
+          <li>➡️ MORE THAN 450 VIDEOS ✅</li>
+          <li>➡️ 14GB IN TOTAL ✅</li>
+          <li>➡️ FULL FOLDER ✅</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'RAPE'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="product-card">
+      <div class="product-header">🔥 FATHER AND DAUGHTER CP 🥵</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/v9uiod.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/6kcrig.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p>R£AL !NC#-ST V!D£0S COLLECTION</p>
+        <p>THIS FOLDER GOES CRAZY 😈💯</p>
+        <ul class="features">
+          <li>✅ DAD – DAUGHTER</li>
+          <li>✅ MORE THAN 300 VIDEOS</li>
+          <li>✅ 8.68GB IN TOTAL</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'FATHER'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="product-card">
+      <div class="product-header">🔥 C#P PARADISE</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/2x4hw1.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/4x6cnk.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p>😈 CP PARADISE AVAILABLE 🔥</p>
+        <ul class="features">
+          <li>➡️ MORE THAN 150 VIDEOS ✅</li>
+          <li>➡️ 4GB IN TOTAL ✅</li>
+          <li>➡️ FULL FOLDER ✅</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'CPPARADISE'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="product-card">
+      <div class="product-header">🔥 PEDOMOM 2025 ✅</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/knbck1.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/f2hz9n.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p>😈 PEDOMOM 2025 AVAILABLE 🔥</p>
+        <ul class="features">
+          <li>➡️ MORE THAN 196 VIDEOS ✅</li>
+          <li>➡️ 6.41GB ✅</li>
+          <li>➡️ FULL FOLDER ✅</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'PEDOMOM'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="product-card">
+      <div class="product-header">🔥 AMELIA BLONDE</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/nfzkb1.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src=" " type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p>‼ Amelia Teen Leaks ‼</p>
+        <ul class="features">
+          <li>✅ Young Teen Solo Stuff</li>
+          <li>✅ PREMIUM CONTENT</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'AMELIA'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="product-card">
+      <div class="product-header">🔥 LIZZY FULL</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/9gax3w.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src=" " type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p>🔥 LIZZY SNAPGOD BEST-SELLER</p>
+        <ul class="features">
+          <li>✅ BLACKMAIL VIDEOS 🥵</li>
+          <li>✅ TRAINING VIDEOS 🔥</li>
+          <li>🥵 20.22GB Folder on MEGA</li>
+          <li>🥵 3486 FILES, 9 SUBFOLDERS</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'LIZZY'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="product-card">
+      <div class="product-header">🔥 TEENS 11-17</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/z051gd.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p>🔥 T33NS 11-17 😈</p>
+        <ul class="features">
+          <li>✅ MORE THAN 320 VIDEOS</li>
+          <li>✅ 10GB IN TOTAL</li>
+          <li>✅ MY COMPLETE FOLDER</li>
+          <li>✅ PREMIUM CONTENT</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'TEENS1117'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="product-card">
+      <div class="product-header">🔥 TEENS AND DOGS</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/pz1uxu.MP4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/2bz5kb.MP4" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p>‼ TEENS AND DOGS FOLDER ‼</p>
+        <ul class="features">
+          <li>✅ MORE THAN 50 VIDEOS</li>
+          <li>✅ 4GB IN TOTAL</li>
+          <li>✅ MY COMPLETE FOLDER</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'TEENSANDDOGS'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="product-card">
+      <div class="product-header">🔥 IVANKAH AND BRO</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/ts12nh.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/iec4cv.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p>🔥 IVANKAH AND BRO ✅</p>
+        <ul class="features">
+          <li>✅ 10.22GB folder on MEGA 64 files</li>
+          <li>✅ 14-YEAR-OLD GIRL ABUSING HER YOUNGER BROTHER</li>
+          <li>✅ INCEST 🥵</li>
+          <li>✅ SOLO STUFF</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'IVANKAH'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="product-card">
+      <div class="product-header">😈 CP GAY 🔥</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/u3l318.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/vl62cc.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p><strong>😈 C#P GAY 📂</strong></p>
+        <ul class="features">
+          <li><span class="emoji">✅</span> MORE THAN 100 VIDEOS</li>
+          <li><span class="emoji">✅</span> 5GB IN TOTAL</li>
+          <li><span class="emoji">✅</span> COMPLETE FOLDER</li>
+          <li><span class="emoji">✅</span> PREMIUM CONTENT</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'CPGAY'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 16 -->
+    <div class="product-card">
+      <div class="product-header">🔥 MOM AND SON FULL HD</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/pcoaml.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/1qd13u.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p><strong>😈 MOM AND SON FULL HD 📂</strong></p>
+        <ul class="features">
+          <li><span class="emoji">✅</span> MORE THAN 300 VIDEOS</li>
+          <li><span class="emoji">✅</span> 11GB IN TOTAL</li>
+          <li><span class="emoji">✅</span> MY COMPLETE FOLDER</li>
+          <li><span class="emoji">✅</span> PREMIUM CONTENT</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'MSFULLHD'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 17 -->
+    <div class="product-card">
+      <div class="product-header">✅ HIGH SCHOOL STUDENTS 🔥</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/gvt7hf.mov" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/ranecd.mov" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p><strong>‼ HIGH SCHOOL STUDENTS ‼</strong></p>
+        <ul class="features">
+          <li><span class="emoji">✅</span> MORE THAN 148 VIDEOS</li>
+          <li><span class="emoji">✅</span> 7GB IN TOTAL</li>
+          <li><span class="emoji">✅</span> COMPLETE FOLDER</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'HIGHSCHOOL'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 18 -->
+    <div class="product-card">
+      <div class="product-header">ENGLISH TEENS 🔥</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/jdq4lw.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/o3xiqr.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p>🔥 ENGLISH TEENS 😈</p>
+        <ul class="features">
+          <li>✅ OVER 500 VIDEOS</li>
+          <li>✅ 5.19GB IN TOTAL</li>
+          <li>✅ MORE THAN 200 BLACKMAIL VIDEOS</li>
+          <li>✅ INCEST</li>
+          <li>✅ MY COMPLETE FOLDER</li>
+          <li>✅ PREMIUM CONTENT</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'ENGLISHTEENS'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
+    <!-- 19 -->
+    <div class="product-card">
+      <div class="product-header">TEENS LEAKS 🔥</div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/737h89.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-container">
+        <video controls preload="metadata" controlsList="nodownload">
+          <source src="https://files.catbox.moe/5qreny.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="product-content">
+        <p>😈🟢 T33NS LEAKS FOLDER 📁📂</p>
+        <ul class="features">
+          <li>✅ 5GB IN TOTAL</li>
+          <li>✅ MORE THAN 180 VIDEOS</li>
+          <li>✅ MY COMPLETE FOLDER</li>
+          <li>✅ PREMIUM CONTENT</li>
+        </ul>
+        <a href="#" onclick="this.href=TELEGRAM_BASE+'TEENSLEAKS'" class="buy-btn">BUY NOW ✔️</a>
+      </div>
+    </div>
+
   </section>
 
-  <!-- Cards container -->
-  <main id="card-container" class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 max-w-7xl mx-auto"></main>
+  <section class="promo-section">
+    <h2>BEST PROMO EVER 🔥</h2>
+    <p style="font-size:1.3rem; max-width:600px; margin:0 auto 30px;">
+      😈 RECEIVE <strong>2 FOLDERS</strong> OF YOUR CHOICE FOR ONLY <strong>$50</strong> 📁📂📂
+    </p>
+    <a href="#" onclick="this.href=TELEGRAM_BASE+'PROMO3FOLDERS'" class="buy-btn" style="font-size:1.4rem; padding:16px 48px;">
+      CLAIM PROMO NOW
+    </a>
+  </section>
 
-  <!-- Pagination -->
-  <div id="pagination" class="flex justify-center flex-wrap gap-3 py-8"></div>
+  <section class="promo-section" style="border-color:#ff0044; border-style:solid;">
+    <h2>ALL CP FOLDERS 🔥</h2>
+    <p style="font-size:1.3rem; max-width:600px; margin:0 auto 30px;">
+      🚨 SUPER PROMOTION! FOR ONLY <strong>$80</strong> YOU'LL GET ALL THE CP FOLDERS AND ACCESS TO THE VIP GROUP ✅
+    </p>
+    <a href="#" onclick="this.href=TELEGRAM_BASE+'ALLCP'" class="buy-btn" style="font-size:1.4rem; padding:16px 48px;">
+      GET ALL CP NOW
+    </a>
+  </section>
 
-  <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  <section class="promo-section" style="border-color:#ff3366;">
+    <h2>ALL TEENS FOLDERS 🔥</h2>
+    <p style="font-size:1.3rem; max-width:600px; margin:0 auto 30px;">
+      🚨 SUPER PROMOTION! FOR ONLY <strong>$80</strong> YOU'LL GET ALL THE TEENS FOLDERS AND ACCESS TO THE VIP GROUP ✅
+    </p>
+    <a href="#" onclick="this.href=TELEGRAM_BASE+'ALLTEENS'" class="buy-btn" style="font-size:1.4rem; padding:16px 48px;">
+      GET ALL TEENS NOW
+    </a>
+  </section>
 
-    // ─── PRODUTOS ───────────────────────────────────────
-    const produtos = [
-      { title: "BLACK CP😊",               cover: "https://leopard.hosting.pecon.us/dl/qhihk",   price:30 },
-      { title: "CP PARADISE",              cover: "https://leopard.hosting.pecon.us/dl/sirul",   price: 30 },
-      { title: "😈NEW CP 02🔥",            cover: "https://leopard.hosting.pecon.us/dl/qqcxz",   price: 30 },
-      { title: "✅NEW CP 03🔥",            cover: "https://leopard.hosting.pecon.us/dl/asnac",   price: 30 },
-      { title: "🥵PREMIUM CP🥵",           cover: "https://example.com/covers/023.jpg",         price: 30 },
-      { title: "🔥REN BOYS",               cover: "https://example.com/covers/023.jpg",         price: 30 },
-      { title: "🙈CP GAY",                 cover: "https://leopard.hosting.pecon.us/dl/vgjch",  price: 30 },
-      { title: "ANIMAL CP FUCKING",        cover: "https://leopard.hosting.pecon.us/dl/gmdif",  price: 30 },
-      { title: "🔥RAPE CP",                cover: "https://leopard.hosting.pecon.us/dl/vovoz",  price: 30 },
-      { title: "PEDOMOM🍑",                cover: "https://leopard.hosting.pecon.us/dl/ekwob",  price: 30 },
-      { title: "MON AND SON📁",            cover: "https://leopard.hosting.pecon.us/dl/yvnfh",  price: 30 },
-      { title: "FATHER AND DAUGHTER",      cover: "https://leopard.hosting.pecon.us/dl/svrev",  price: 30 },
-      { title: "AMELIA AND BROTHER🍑‼",    cover: "https://leopard.hosting.pecon.us/dl/zlydm",  price: 30 },
-      { title: "🙈LIZZY AND BROTHER🍑",    cover: "https://leopard.hosting.pecon.us/dl/eusgu",  price: 30 },
-      { title: "AMERICAN TEENS✅",          cover: "https://leopard.hosting.pecon.us/dl/jiusg",  price: 30 },
-      { title: "ENGLISH TEENS🙈",          cover: "https://leopard.hosting.pecon.us/dl/qlviq",  price: 30 },
-      { title: "WHITE TEENS",              cover: "https://leopard.hosting.pecon.us/dl/gtbph",  price: 30 },
-      { title: "TEENS LEAKS📁‼",           cover: "https://leopard.hosting.pecon.us/dl/dfxog",  price: 30 },
-      { title: "IVANKA AND BROTHER🤤",     cover: "https://leopard.hosting.pecon.us/dl/vzpjx",  price: 30 },
-      { title: "HIGH SCHOOL SHOTS🫦🥵",    cover: "https://leopard.hosting.pecon.us/dl/napgs",  price: 30 },
-      { title: "DESIRE GARCIA FOLDER📁",   cover: "https://leopard.hosting.pecon.us/dl/voyki",  price: 30 }
-    ];
+  <section class="contact-final">
+    <h2>FOR MORE CONTENT, CONTACT SUPPORT ON TELEGRAM TO SEE THE FULL MENU.</h2>
 
-    const names = ["John","Luke","Carl","Hazael","Robert","Anna","Ian","Isabella","Mark","Steven","Satoshi","Yuna","David","Chloe","Liam","Emma","Kwame","Jade","Ahmed","Pablo","Michael","Camila","Hans","Greta","Peter","Sophie","Victor","Anya","Aisha","Tariq","Juan","Luisa","Chen","Mei","Arjun","Priya"];
+    <p style="margin:20px 0; font-size:1.4rem;"><strong>
+      Contact → <a href="#" onclick="this.href='https://t.me/'+TELEGRAM_USER+'?text=MENU'">USD808</a>
+    </strong></p>
+  </section>
 
-    const folderNames = produtos.map(p => p.title);
+</div>
 
-    const PER_PAGE = 12;
-    let currentPage = 1;
-    let currentFilter = "recent";
-
-    const cards = produtos.map((prod, i) => ({
-      title: prod.title,
-      time: `${10 + i % 10}s`,
-      image: prod.cover || `https://via.placeholder.com/400x225?text=Cover+${i+1}`,
-      label: i % 5 === 0 ? "HOT" : (i % 4 === 0 ? "NEW" : ""),
-      views: Math.floor(Math.random() * 900) + 100,
-      price: prod.price,
-      createdAt: Date.now() - i * 1000000
-    }));
-
-    // Pegar elementos com segurança
-    const elements = {
-      container:     document.getElementById("card-container"),
-      search:        document.getElementById("search"),
-      filterRecent:  document.getElementById("filterRecent"),
-      filterViews:   document.getElementById("filterViews"),
-      filterPriceHigh: document.getElementById("filterPriceHigh"),
-      filterPriceLow:  document.getElementById("filterPriceLow"),
-      pagination:    document.getElementById("pagination"),
-      pageInfo:      document.getElementById("page-info"),
-      videosFound:   document.getElementById("videos-found")
-    };
-
-    // Se faltar elemento crítico → parar e mostrar aviso no console
-    if (!elements.container) {
-      console.error("Elemento #card-container não encontrado. Verifique o HTML.");
-      return;
+<!-- Script de proteção (o mesmo que você já tinha) -->
+<script>
+  function disableDevTools() {
+    debugger;
+    const threshold = 160;
+    if (window.outerWidth - window.innerWidth > threshold || 
+        window.outerHeight - window.innerHeight > threshold) {
+      document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:40vh'>Acesso bloqueado</h1>";
+      window.stop();
     }
+  }
+  setInterval(disableDevTools, 500);
+  window.addEventListener('load', disableDevTools);
+</script>
 
-    function getFilteredData() {
-      let filtered = [...cards];
-      if (elements.search?.value) {
-        const kw = elements.search.value.toLowerCase().trim();
-        filtered = filtered.filter(c => c.title.toLowerCase().includes(kw));
-      }
-
-      if (currentFilter === "priceHigh") filtered.sort((a,b)=>b.price - a.price);
-      if (currentFilter === "priceLow")  filtered.sort((a,b)=>a.price - b.price);
-      if (currentFilter === "views")     filtered.sort((a,b)=>b.views - a.views);
-      if (currentFilter === "recent")    filtered.sort((a,b)=>b.createdAt - a.createdAt);
-
-      return filtered;
-    }
-
-    function render() {
-      const filtered = getFilteredData();
-      const start = (currentPage - 1) * PER_PAGE;
-      const paginated = filtered.slice(start, start + PER_PAGE);
-
-      // Render cards
-      elements.container.innerHTML = "";
-      paginated.forEach((card, idx) => {
-        const globalIdx = start + idx;
-        const id = globalIdx + 1;
-        elements.container.innerHTML += `
-          <a href="video.html?id=${id}" class="block rounded-2xl overflow-hidden card-hover bg-zinc-900/40">
-            <div class="relative">
-              <img src="${card.image}" alt="${card.title}" class="w-full h-56 object-cover">
-              ${card.label ? `<div class="absolute top-3 left-3 bg-pink-600/90 text-xs font-bold px-3 py-1 rounded-full">${card.label}</div>` : ""}
-            </div>
-            <div class="p-4">
-              <h3 class="font-bold mb-2 line-clamp-2">${card.title}</h3>
-              <div class="flex justify-between text-sm text-zinc-400 mb-2">
-                <span>🕒 ${card.time}</span>
-                <span>👁️ ${card.views.toLocaleString()}</span>
-              </div>
-            </div>
-          </a>
-        `;
-      });
-
-      // Pagination
-      const totalPages = Math.ceil(filtered.length / PER_PAGE);
-      elements.pagination.innerHTML = "";
-      for (let i = 1; i <= totalPages; i++) {
-        const btn = document.createElement("button");
-        btn.textContent = i;
-        btn.className = `px-4 py-2 rounded-full text-sm ${i === currentPage ? 'bg-pink-600 text-white' : 'bg-zinc-800 hover:bg-zinc-700'}`;
-        btn.onclick = () => { currentPage = i; render(); };
-        elements.pagination.appendChild(btn);
-      }
-
-      // Info
-      const from = start + 1;
-      const to = Math.min(start + PER_PAGE, filtered.length);
-      if (elements.pageInfo)   elements.pageInfo.textContent   = `Page ${currentPage} (${from}–${to} of ${filtered.length} folders)`;
-      if (elements.videosFound) elements.videosFound.textContent = `${filtered.length} folders found`;
-
-      // Active filter
-      [elements.filterRecent, elements.filterViews, elements.filterPriceHigh, elements.filterPriceLow]
-        .forEach(b => b?.classList.remove("filter-active"));
-      if (currentFilter === "recent")    elements.filterRecent?.classList.add("filter-active");
-      if (currentFilter === "views")     elements.filterViews?.classList.add("filter-active");
-      if (currentFilter === "priceHigh") elements.filterPriceHigh?.classList.add("filter-active");
-      if (currentFilter === "priceLow")  elements.filterPriceLow?.classList.add("filter-active");
-    }
-
-    // Eventos
-    if (elements.search) {
-      elements.search.addEventListener("input", () => { currentPage = 1; render(); });
-    }
-
-    if (elements.filterRecent)    elements.filterRecent.addEventListener("click",    () => { currentFilter = "recent";    currentPage = 1; render(); });
-    if (elements.filterViews)     elements.filterViews.addEventListener("click",     () => { currentFilter = "views";     currentPage = 1; render(); });
-    if (elements.filterPriceHigh) elements.filterPriceHigh.addEventListener("click", () => { currentFilter = "priceHigh"; currentPage = 1; render(); });
-    if (elements.filterPriceLow)  elements.filterPriceLow.addEventListener("click",  () => { currentFilter = "priceLow";  currentPage = 1; render(); });
-
-    // Primeira renderização
-    render();
-
-  });
-  </script>
 </body>
 </html>
